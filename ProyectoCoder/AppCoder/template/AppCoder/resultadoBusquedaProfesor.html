@@ -1,0 +1,25 @@
+{% extends "AppCoder/padre.html" %}
+{% load static %}
+{% block section_name %}
+<h3>Resultado de Busqueda</h3>
+{% endblock %}
+{% block contenidoQueCambia %}
+<form action="{% url 'buscarProfesor' %}" method="GET">
+<h1> Resultado de Busqueda para el profesor {{nombre}}</h1>
+{% if cursos %}
+<ul>
+    {% for profesor in  %}
+    Nombre: {{profesor.nombre}}
+    <br>
+    Apellido: {{profesor.apellido}}
+    <br>
+    Email: {{profesor.email}}
+    <br>
+    Profesion: {{profesor.profesion}}
+{% endfor%}
+</ul>
+
+{% endif%}
+
+</form>
+{% endblock %}

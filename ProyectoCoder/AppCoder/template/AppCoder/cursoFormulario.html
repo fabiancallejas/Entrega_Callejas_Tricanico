@@ -1,0 +1,13 @@
+{% extends "AppCoder/padre.html" %}
+{% load static %}
+{% block section_name %}
+<h3>Formulario para cursos</h3>
+{% endblock %}
+{% block contenidoQueCambia %}
+<form action="{% url 'cursoFormulario' %}" method="POST">{% csrf_token %}
+    <table>
+    {{miFormulario.as_table}}
+    </table>
+    <input type= "submit" value="Enviar formulario">
+</form>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "AppCoder/padre.html" %}
+{% load static %}
+{% block section_name %}
+<h3>Buscador de Profesor</h3>
+{% endblock %}
+{% block contenidoQueCambia %}
+<form action="{% url 'buscarProfesor' %}" method="GET">
+    <h1> Busqueda de Profesor</h1>
+    <input type= "text" name="nombre" placeholder="Nombre Del Profesor", id="nombre">
+    <input type= "submit" value="Buscar">
+</form>
+{% endblock %}
