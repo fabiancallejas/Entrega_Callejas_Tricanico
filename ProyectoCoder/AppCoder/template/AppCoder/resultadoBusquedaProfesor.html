@@ -6,9 +6,9 @@
 {% block contenidoQueCambia %}
 <form action="{% url 'buscarProfesor' %}" method="GET">
 <h1> Resultado de Busqueda para el profesor {{nombre}}</h1>
-{% if cursos %}
+{% if apellido %}
 <ul>
-    {% for profesor in  %}
+    {% for profesor in apellido %}
     Nombre: {{profesor.nombre}}
     <br>
     Apellido: {{profesor.apellido}}

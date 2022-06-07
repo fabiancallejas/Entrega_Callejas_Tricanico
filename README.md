@@ -31,11 +31,11 @@
 
 
      Busqueda por número de camada: /busquedaCamada
-
-
+    
+    
      Si se utiliza la base de datos, la camada '10' devolvería 'Java)
-     
-     
-     
-Nota:
-Las busquedas sobre Profesor, no están bien implementadas al momento de la entrega. No tomar en cuenta.
+
+
+     Busqueda por profesor: /buscarProfesor
+
+     Si se busca por nombre 'f1' aparece el resultado.

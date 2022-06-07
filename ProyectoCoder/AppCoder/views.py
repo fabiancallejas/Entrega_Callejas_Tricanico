@@ -99,7 +99,7 @@ def busquedaCamada(request):
 
 def buscar(request):
     if request.GET['camada']:
-        camada =  request.GET['camada']
+        camada = request.GET['camada']
         cursos = Curso.objects.filter(camada=camada)
         return render (request, 'appCoder/resultadoBusqueda.html', {'cursos':cursos, 'camada':camada})
     else:
@@ -111,11 +111,9 @@ def busquedaProfesor(request):
 
 def buscarProfesor(request):
     if request.GET['nombre']:
-        print(request.GET)
-        nombre =  request.GET['nombre']
-        print(nombre)
-        profesor = Profesor.objects.filter(nombre=nombre)
-        return render (request, 'appCoder/resultadoBusquedaProfesor.html', {'nombre':nombre},)
+        nombre = request.GET['nombre']
+        apellido = Profesor.objects.filter(nombre=nombre)
+        return render (request, 'appCoder/resultadoBusquedaProfesor.html', {'nombre':nombre, 'apellido':apellido})
     else:
      respuesta = f"No se han encontrado resultados"
     return HttpResponse(respuesta)
