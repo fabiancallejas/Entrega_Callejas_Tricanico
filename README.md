@@ -10,8 +10,11 @@ Se hacen 4 clases (Curso, Estudiante, Profesor, Entregable)
 Se generan 4 formularios
 
 Profesores : /profesorFormulario
+
 Estudiantes: /estudianteFormulario
+
 Cursos: /cursosFormulario
+
 Entregables: /entregableFormulario
 
 
