@@ -1,10 +1,12 @@
 import email
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from AppCoder.models import Curso,Profesor,Estudiante,Entregable
 from django.template import loader
 from AppCoder.forms import CursoFormulario,ProfesorFormulario,EstudianteFormulario,EntregableFormulario
-
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 # Create your views here.
 def curso (self):
@@ -47,22 +49,6 @@ def cursoFormulario(request):
     else:
         miFormulario = CursoFormulario()
     return render(request, 'appCoder/cursoFormulario.html' , {'miFormulario':miFormulario})
-
-def profesorFormulario(request):
-    if request.method == 'POST':
-        miFormulario = ProfesorFormulario(request.POST)
-        if miFormulario.is_valid():
-            informacion = miFormulario.cleaned_data
-        nombre = informacion ['nombre']
-        apellido = informacion ['apellido']
-        email = informacion ['email']
-        profesion = informacion ['profesion']
-        profesor = Profesor(nombre=nombre, apellido=apellido, email=email, profesion=profesion) 
-        profesor.save() 
-        return render(request, 'AppCoder/inicio.html')
-    else:
-        miFormulario = ProfesorFormulario()
-    return render(request, 'appCoder/profesorFormulario.html' , {'miFormulario':miFormulario})
 
 def estudianteFormulario(request):
     if request.method == 'POST':
@@ -117,3 +103,86 @@ def buscarProfesor(request):
     else:
      respuesta = f"No se han encontrado resultados"
     return HttpResponse(respuesta)
+
+#CRUD Read - Profesor
+def leerProfesores(request):
+    profesores = Profesor.objects.all()
+    contexto = {'profesores':profesores}    
+    return render (request, 'appCoder/profesores.html', contexto)
+
+#CRUD Create - Profesor
+def profesorFormulario(request):
+    if request.method == 'POST':
+        miFormulario = ProfesorFormulario(request.POST)
+        if miFormulario.is_valid():
+            informacion = miFormulario.cleaned_data
+        nombre = informacion ['nombre']
+        apellido = informacion ['apellido']
+        email = informacion ['email']
+        profesion = informacion ['profesion']
+        profesor = Profesor(nombre=nombre, apellido=apellido, email=email, profesion=profesion) 
+        profesor.save() 
+        return render(request, 'AppCoder/inicio.html')
+    else:
+        miFormulario = ProfesorFormulario()
+    return render(request, 'appCoder/profesorFormulario.html' , {'miFormulario':miFormulario})
+
+#CRUD Delete - Profesor
+def eliminarProfesor (request, nombre):
+    profesor = Profesor.objects.get(nombre=nombre)
+    profesor.delete()
+    profesores = Profesor.objects.all()
+    contexto = {'profesores':profesores}
+    return render (request, "appCoder/profesores.html", contexto)
+
+#CRUD Update - Profesor
+def editarProfesor (request, nombre):
+    profesor = Profesor.objects.get(nombre=nombre)
+
+    if request.method == 'POST':
+        miFormulario = ProfesorFormulario(request.POST)
+
+        if miFormulario.is_valid():
+            informacion = miFormulario.cleaned_data
+            profesor.nombre = informacion ['nombre']
+            profesor.apellido = informacion ['apellido']
+            profesor.email = informacion ['email']
+            profesor.profesion = informacion ['profesion']
+            profesor.save() 
+
+            profesores = Profesor.objects.all()
+            contexto = {'profesores':profesores}
+            return render (request, "appCoder/profesores.html", contexto)
+    else:
+        miFormulario = ProfesorFormulario(initial= {'nombre': profesor.nombre, 'apellido': profesor.apellido, 'email': profesor.email ,'profesion': profesor.profesion})
+        contexto = {'miFormulario':miFormulario,'nombre':nombre}
+        return render(request, 'appCoder/editarProfesor.html' , contexto)
+
+
+##ListView
+
+class EstudiantesList(ListView):
+    model = Estudiante
+    template_name = 'appCoder/estudiante_list.html'
+
+#DetailView
+class EstudianteDetalle(DetailView):
+    model = Estudiante
+    template_name = 'appCoder/estudiante_detalle.html'
+
+#CreateView
+class EstudianteCreacion(CreateView):
+    model = Estudiante
+    success_url = reverse_lazy('estudiante_list')
+    fields = ['nombre', 'apellido', 'email']
+
+#UpdateView
+class EstudianteEdicion(UpdateView):
+    model = Estudiante
+    success_url = reverse_lazy('estudiante_list')
+    fields = ['nombre', 'apellido', 'email']
+
+#DeleteView
+class EstudianteEliminar(DeleteView):
+    model = Estudiante
+    success_url = reverse_lazy('estudiante_list')

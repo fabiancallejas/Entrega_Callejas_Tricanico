@@ -1,9 +1,12 @@
 {% extends "AppCoder/padre.html" %}
 {% load static %}
-{% block contenidoQueCambia %}
-<h3>Página de Estudiantes</h3>
-{% endblock %}
-
 {% block section_name %}
 <h3>Estudiantes</h3>
+{% endblock %}
+{% block contenidoQueCambia %}
+<h3>Página de Estudiantes</h3>
+
+{% for estudiante in object_list %}
+<li> {{estudiante}}</li>
+{% endfor %}
 {% endblock %}
